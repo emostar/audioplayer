@@ -1,4 +1,4 @@
-# AudioPlayer
+# AudioPlayer2
 
 A Flutter audio plugin (ObjC/Java) to play remote or local audio files 
 
@@ -17,17 +17,17 @@ A Flutter audio plugin (ObjC/Java) to play remote or local audio files
 
 ## Usage
 
-[Example](https://github.com/rxlabz/audioplayer/blob/master/example/lib/main.dart)
+[Example](https://github.com/emostar/audioplayer2/blob/master/example/lib/main.dart)
 
 To use this plugin :
 
-- Add the dependency to your [pubspec.yaml](https://github.com/rxlabz/audioplayer/blob/master/example/pubspec.yaml) file.
+- Add the dependency to your [pubspec.yaml](https://github.com/emostar/audioplayer2/blob/master/example/pubspec.yaml) file.
 
 ```yaml
   dependencies:
     flutter:
       sdk: flutter
-    audioplayer:
+    audioplayer2:
 ```
 
 - Instantiate an AudioPlayer instance
@@ -107,7 +107,7 @@ By default iOS forbids loading from non-https url. To cancel this restriction ed
 ## Troubleshooting
 
 - If you get a MissingPluginException, try to `flutter build apk` on Android, or `flutter build ios`
-- to use the plugin in a ObjC iOS project, add 'use_frameworks!' to your podfile cf. [example](https://github.com/rxlabz/audioplayer/blob/master/example/ios/Podfile)
+- to use the plugin in a ObjC iOS project, add 'use_frameworks!' to your podfile cf. [example](https://github.com/emostar/audioplayer2/blob/master/example/ios/Podfile)
 
 ## Getting Started
 
@@ -115,3 +115,7 @@ For help getting started with Flutter, view our online
 [documentation](http://flutter.io/).
 
 For help on editing plugin code, view the [documentation](https://flutter.io/platform-plugins/#edit-code).
+
+## Note
+ 
+This project has been forked from the origial [AudioPlayer](https://github.com/rxlabz/audioplayer) due to it appearing to be abandoned.
