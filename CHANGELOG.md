@@ -2,6 +2,7 @@
 
 ## 0.5.1
 - rename package to audioplayer2 to indicate this is a new fork
+- merge PR from [dp-singh](https://github.com/dp-singh) to update Android SDK version
 - merge PR from [ThinkDigitalRepair](https://github.com/ThinkDigitalRepair) to update deprecated Android code
 - merge PR form [mit-mit](https://github.com/mit-mit) to declare support for Dart 2.0 stable in the Dart SDK upper constraint
 
