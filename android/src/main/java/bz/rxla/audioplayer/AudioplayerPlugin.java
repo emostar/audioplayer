@@ -14,6 +14,7 @@ import io.flutter.plugin.common.PluginRegistry.Registrar;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Locale;
 
 import android.content.Context;
 import android.os.Build;
@@ -25,7 +26,6 @@ public class AudioplayerPlugin implements MethodCallHandler {
   private static final String ID = "bz.rxla.flutter/audio";
 
   private final MethodChannel channel;
-  private final Registrar registrar;
   private final AudioManager am;
   private final Handler handler = new Handler();
   private MediaPlayer mediaPlayer;
@@ -36,7 +36,6 @@ public class AudioplayerPlugin implements MethodCallHandler {
   }
 
   private AudioplayerPlugin(Registrar registrar, MethodChannel channel) {
-    this.registrar = registrar;
     this.channel = channel;
     channel.setMethodCallHandler(this);
     Context context = registrar.context().getApplicationContext();
@@ -143,7 +142,7 @@ public class AudioplayerPlugin implements MethodCallHandler {
       mediaPlayer.setOnErrorListener(new MediaPlayer.OnErrorListener(){
         @Override
         public boolean onError(MediaPlayer mp, int what, int extra) {
-          channel.invokeMethod("audio.onError", String.format("{\"what\":%d,\"extra\":%d}", what, extra));
+          channel.invokeMethod("audio.onError", String.format(Locale.US,"{\"what\":%d,\"extra\":%d}", what, extra));
           return true;
         }
       });
