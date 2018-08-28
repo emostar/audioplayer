@@ -3,6 +3,7 @@ version '1.0-SNAPSHOT'
 
 buildscript {
     repositories {
+        google()
         jcenter()
     }
 
@@ -13,6 +14,7 @@ buildscript {
 
 allprojects {
     repositories {
+        google()
         jcenter()
     }
 }
