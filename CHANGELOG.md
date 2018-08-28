@@ -1,7 +1,9 @@
 # Changelog
 
-## 0.5.0+1
-- Declare support for Dart 2.0 stable in the Dart SDK upper constraint
+## 0.5.1
+- rename package to audioplayer2 to indicate this is a new fork
+- merge PR from [ThinkDigitalRepair](https://github.com/ThinkDigitalRepair) to update deprecated Android code
+- merge PR form [mit-mit](https://github.com/mit-mit) to declare support for Dart 2.0 stable in the Dart SDK upper constraint
 
 ## 0.5.0
 - BREAKING Change: No more separate handlers for communicating the state of the player. Instead we rely on streams to publish state changes and position updates.
