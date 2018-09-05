@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.5.2
+- change podspec name to audioplayer2
+
 ## 0.5.1
 - rename package to audioplayer2 to indicate this is a new fork
 - merge PR from [dp-singh](https://github.com/dp-singh) to update Android SDK version
