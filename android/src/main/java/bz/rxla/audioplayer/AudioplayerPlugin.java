@@ -45,36 +45,37 @@ public class AudioplayerPlugin implements MethodCallHandler {
   @Override
   public void onMethodCall(MethodCall call, MethodChannel.Result response) {
     switch (call.method) {
-      case "play":
-        play(call.argument("url").toString());
-        response.success(null);
-        break;
-      case "pause":
-        pause();
-        response.success(null);
-        break;
-      case "stop":
-        stop();
-        response.success(null);
-        break;
-      case "seek":
-        double position = call.arguments();
-        seek(position);
-        response.success(null);
-        break;
-      case "mute":
-        Boolean muted = call.arguments();
-        mute(muted);
-        response.success(null);
-        break;
-      default:
-        response.notImplemented();
+    case "play":
+      play(call.argument("url").toString());
+      response.success(null);
+      break;
+    case "pause":
+      pause();
+      response.success(null);
+      break;
+    case "stop":
+      stop();
+      response.success(null);
+      break;
+    case "seek":
+      double position = call.arguments();
+      seek(position);
+      response.success(null);
+      break;
+    case "mute":
+      Boolean muted = call.arguments();
+      mute(muted);
+      response.success(null);
+      break;
+    default:
+      response.notImplemented();
     }
   }
 
   private void mute(Boolean muted) {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-      am.adjustStreamVolume(AudioManager.STREAM_MUSIC, muted ? AudioManager.ADJUST_MUTE : AudioManager.ADJUST_UNMUTE, 0);
+      am.adjustStreamVolume(AudioManager.STREAM_MUSIC, muted ? AudioManager.ADJUST_MUTE : AudioManager.ADJUST_UNMUTE,
+          0);
     } else {
       am.setStreamMute(AudioManager.STREAM_MUSIC, muted);
     }
@@ -88,6 +89,7 @@ public class AudioplayerPlugin implements MethodCallHandler {
     handler.removeCallbacks(sendData);
     if (mediaPlayer != null) {
       mediaPlayer.stop();
+      mediaPlayer.reset();
       mediaPlayer.release();
       mediaPlayer = null;
       channel.invokeMethod("audio.onStop", null);
@@ -103,15 +105,13 @@ public class AudioplayerPlugin implements MethodCallHandler {
   }
 
   private void play(String url) {
-    AudioAttributes audioAttribute = new AudioAttributes.Builder()
-            .setUsage(AudioAttributes.USAGE_MEDIA)
-            .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
-            .build();
+    AudioAttributes audioAttribute = new AudioAttributes.Builder().setUsage(AudioAttributes.USAGE_MEDIA)
+        .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC).build();
 
     if (mediaPlayer == null) {
       mediaPlayer = new MediaPlayer();
       mediaPlayer.setAudioAttributes(audioAttribute);
-      //mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+      // mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
 
       try {
         mediaPlayer.setDataSource(url);
@@ -123,7 +123,7 @@ public class AudioplayerPlugin implements MethodCallHandler {
 
       mediaPlayer.prepareAsync();
 
-      mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener(){
+      mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
         @Override
         public void onPrepared(MediaPlayer mp) {
           mediaPlayer.start();
@@ -131,7 +131,7 @@ public class AudioplayerPlugin implements MethodCallHandler {
         }
       });
 
-      mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener(){
+      mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
         @Override
         public void onCompletion(MediaPlayer mp) {
           stop();
@@ -139,10 +139,10 @@ public class AudioplayerPlugin implements MethodCallHandler {
         }
       });
 
-      mediaPlayer.setOnErrorListener(new MediaPlayer.OnErrorListener(){
+      mediaPlayer.setOnErrorListener(new MediaPlayer.OnErrorListener() {
         @Override
         public boolean onError(MediaPlayer mp, int what, int extra) {
-          channel.invokeMethod("audio.onError", String.format(Locale.US,"{\"what\":%d,\"extra\":%d}", what, extra));
+          channel.invokeMethod("audio.onError", String.format(Locale.US, "{\"what\":%d,\"extra\":%d}", what, extra));
           return true;
         }
       });
@@ -153,8 +153,8 @@ public class AudioplayerPlugin implements MethodCallHandler {
     handler.post(sendData);
   }
 
-  private final Runnable sendData = new Runnable(){
-    public void run(){
+  private final Runnable sendData = new Runnable() {
+    public void run() {
       try {
         if (!mediaPlayer.isPlaying()) {
           handler.removeCallbacks(sendData);
@@ -162,8 +162,7 @@ public class AudioplayerPlugin implements MethodCallHandler {
         int time = mediaPlayer.getCurrentPosition();
         channel.invokeMethod("audio.onCurrentPosition", time);
         handler.postDelayed(this, 200);
-      }
-      catch (Exception e) {
+      } catch (Exception e) {
         Log.w(ID, "When running handler", e);
       }
     }
